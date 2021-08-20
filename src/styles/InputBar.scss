@@ -1,0 +1,33 @@
+.InputBar {
+
+    .inputContainer {
+        background: $gray;
+        border: $gray;
+        width: 60%;
+        height: 50px;
+        border-radius: 5px;
+        padding: 10px;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;;
+
+        .inputWrapper {
+            flex-grow: 8;
+            background: red;
+        }
+
+        .addButtonContainer {
+            border-radius: 5px;
+            background-color: $white;
+            flex-grow: 1;
+        }
+
+        input {
+            background: $gray;
+            border: $gray;
+            height: 80%;
+            width: 80%;
+        }
+    }
+}
