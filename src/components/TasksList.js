@@ -1,7 +1,9 @@
 import React from 'react'
+import CheckmarkImage from '../assets/checkmark.png'
 
 const TasksList = ({
     tasks,
+    title,
     type,
     setAsCompleted
 }) => {
@@ -13,9 +15,9 @@ const TasksList = ({
                     <div className='task-container'>
                         {`${t.title}`}
                         {type ==='pending' &&
-                            <button onClick={() => setAsCompleted(t)}>
-                                {'Completed'}
-                            </button>
+                            <div className='completed-icon' onClick={() => setAsCompleted(t)}>
+                                <img src={CheckmarkImage} alt='checkmark'/>
+                            </div>
                         }
                     </div>
                 )
@@ -27,7 +29,7 @@ const TasksList = ({
     return (
         <div className='TasksList'>
             <div className='list-title'>
-                {type}
+                {title}
             </div>
             {renderTasks({tasks})}
         </div>

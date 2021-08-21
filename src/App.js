@@ -27,6 +27,12 @@ function App() {
         setPendingTasks([...tasks])
     }
 
+    const resetTasks = () => {
+        setPendingTasks([])
+        setCompletedTasks([])
+        setSuccessPercentage(0)
+    }
+
     const setAsCompleted = (task) => {
         task.type = 'completed'
         const completedTaskIndex = pendingTasks.findIndex(t => t.type === 'completed')
@@ -44,15 +50,18 @@ function App() {
             <hr/>
             <TasksList
                 tasks={pendingTasks}
-                title='Pending Tasks'
+                title='Pending'
                 type='pending'
                 setAsCompleted={(task) => setAsCompleted(task)}
             />
             <TasksList
                 tasks={completedTasks}
-                title='Completed Tasks'
+                title='Completed'
                 type='completed'
             />
+            <div className='reset-button' onClick={() => resetTasks()}>
+                Reset
+            </div>
         </div>
     );
 }

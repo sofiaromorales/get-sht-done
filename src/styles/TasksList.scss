@@ -14,10 +14,16 @@
 
     .task-container {
         display: flex;
-        //flex-direction: column;
         margin-top: 20px;
         justify-content: space-between;
         display: flex;
         color: $light-purple;
+
+        .completed-icon {
+            filter: brightness(0) invert(1);
+            img {
+                height: 30px;
+            }
+        }
     }
 }
