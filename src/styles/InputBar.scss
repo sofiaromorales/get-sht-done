@@ -1,8 +1,8 @@
 .InputBar {
 
-    .inputContainer {
-        background: $gray;
-        border: $gray;
+    .input-container {
+        background: $dark-purple;
+        border: $light-purple solid 1px;
         width: 60%;
         height: 50px;
         border-radius: 5px;
@@ -12,22 +12,41 @@
         flex-direction: row;
         justify-content: space-between;;
 
-        .inputWrapper {
+        .input-wrapper {
             flex-grow: 8;
-            background: red;
+            background: $dark-purple;
         }
 
-        .addButtonContainer {
+        .add-button-container {
             border-radius: 5px;
-            background-color: $white;
+            background-color: $light-purple;
             flex-grow: 1;
+            flex-direction: row;
+            margin: auto;
+            .button-text {
+                color: $dark-purple;
+                font-weight: bold;
+                padding: 15px;
+            }
         }
 
         input {
-            background: $gray;
-            border: $gray;
-            height: 80%;
+            background: $dark-purple;
+            border: $light-purple;
+            height: 100%;
             width: 80%;
+            color: $light-purple;
+            font-size: 20px;
         }
+
+        #taskInput:focus {
+            outline: none;
+        }
+    }
+
+
+    .input-container:hover {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
     }
 }

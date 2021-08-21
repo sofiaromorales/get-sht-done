@@ -18,20 +18,8 @@ function App() {
     useEffect(() => {
         const tasks = [...pendingTasks, ...completedTasks]
         setSuccessPercentage(tasks.length ? (completedTasks.length * 100) / tasks.length : 0)
-        const netSuccessPercentage = tasks.length ? (completedTasks.length * 100) / tasks.length : 0
-        while (successPercentage !== netSuccessPercentage) {
-            window.setInterval(() => {
-                if (successPercentage < netSuccessPercentage) {
-                    setSuccessPercentage(successPercentage + 1)
-                } else {
-                    setSuccessPercentage(successPercentage - 1)
-                }
-                console.log('successPercentage');
-                console.log(successPercentage);
-            }, 1000)
+    },[completedTasks, pendingTasks])
 
-        }
-    },[completedTasks])
 
     const addPendingTask = (task) => {
         const tasks = pendingTasks
@@ -53,13 +41,13 @@ function App() {
             <ProgressBar
                 successPercentage={successPercentage}
             />
+            <hr/>
             <TasksList
                 tasks={pendingTasks}
                 title='Pending Tasks'
                 type='pending'
                 setAsCompleted={(task) => setAsCompleted(task)}
             />
-            <hr/>
             <TasksList
                 tasks={completedTasks}
                 title='Completed Tasks'

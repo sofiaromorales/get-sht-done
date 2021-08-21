@@ -2,3 +2,9 @@
 
 @import './InputBar';
 @import './ProgressBar';
+@import  './TasksList';
+
+body {
+    background: $dark-purple;
+    font-family: sans-serif;
+}

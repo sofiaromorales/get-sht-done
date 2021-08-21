@@ -8,9 +8,9 @@ const TasksList = ({
 
     const renderTasks = ({tasks}) => {
         return tasks.map(t => {
-            if (t.type == type) {
+            if (t.type === type) {
                 return (
-                    <div>
+                    <div className='task-container'>
                         {`${t.title}`}
                         {type ==='pending' &&
                             <button onClick={() => setAsCompleted(t)}>
@@ -20,11 +20,15 @@ const TasksList = ({
                     </div>
                 )
             }
+            return null
         })
     }
 
     return (
         <div className='TasksList'>
+            <div className='list-title'>
+                {type}
+            </div>
             {renderTasks({tasks})}
         </div>
     )

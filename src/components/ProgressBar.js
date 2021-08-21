@@ -4,9 +4,14 @@ const ProgressBar = ({
     successPercentage
 }) => {
 
+    const successBar = {
+        transition: 'width 1s ease-in-out',
+        width: `${successPercentage}%`
+    }
+
     return (
         <div className='ProgressBar'>
-            <div className='success-bar' style={{width: `${successPercentage}%`}}/>
+            <div className='success-bar' style={successBar}/>
         </div>
     )
 }
