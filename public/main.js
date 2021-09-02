@@ -1,6 +1,7 @@
 const path = require('path')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron')
 const isDev = require('electron-is-dev')
+const Store = require('electron-store');
 
 function createWindow() {
     //Create the Browser Window
@@ -8,19 +9,26 @@ function createWindow() {
         widt: 800,
         height: 800,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            preload: __dirname + '/preload.js'
         }
     })
     window.loadURL('http://localhost:3000')
     if (isDev) {
         window.webContents.openDevTools({mode: 'detach'})
     }
+    window.webContents.on('did-finish-load', () => {
+        window.webContents.send('pending-tasks', store.get('pending-tasks'))
+        window.webContents.send('complete-tasks', store.get('complete-tasks'))
+    })
+    //window.webContents.send('pending-tasks', store.get('pending-tasks'))
     //window.loadFile('bu/index.html')
 }
 
 //Called once electron is ready
 
-app.on('ready', createWindow)
+app.on('ready', () => createWindow)
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -33,3 +41,21 @@ app.on('activate', () => {
         createWindow();
     }
 })
+
+const store = new Store();
+
+ipcMain.on('add_task', (event, arg) => {
+    const {
+        storeName,
+        value
+    } = arg
+    store.set(storeName, value);
+});
+
+ipcMain.on('delete_tasks', (event, arg) => {
+    const {
+        storeName,
+        value
+    } = arg
+    store.set(storeName, value);
+});

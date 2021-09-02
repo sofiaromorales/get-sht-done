@@ -10,7 +10,7 @@ const TasksList = ({
 
     const renderTasks = ({tasks}) => {
         return tasks.map(t => {
-            if (t.type === type) {
+            if (t && t.type === type) {
                 return (
                     <div className='task-container'>
                         {`${t.title}`}
