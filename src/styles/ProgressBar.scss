@@ -13,4 +13,12 @@
         background: $green;
         border-radius: 5px;
     }
+    .pending-bar {
+        background: $yellow;
+        border-radius: 5px;
+    }
+    .hold-bar {
+        background: $red;
+        border-radius: 5px;
+    }
 }

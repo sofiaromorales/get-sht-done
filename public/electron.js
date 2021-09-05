@@ -14,13 +14,18 @@ function createWindow() {
             preload: __dirname + '/preload.js'
         }
     })
-    window.loadURL('http://localhost:3000')
+    window.loadURL(
+        isDev
+        ? 'http://localhost:3000'
+        : `file://${path.join(__dirname, "../build/index.html")}`
+    )
     if (isDev) {
         window.webContents.openDevTools({mode: 'detach'})
     }
     window.webContents.on('did-finish-load', () => {
         window.webContents.send('pending-tasks', store.get('pending-tasks'))
         window.webContents.send('complete-tasks', store.get('complete-tasks'))
+        window.webContents.send('on-hold-tasks', store.get('on-hold-tasks'))
     })
     //window.webContents.send('pending-tasks', store.get('pending-tasks'))
     //window.loadFile('bu/index.html')
@@ -28,7 +33,7 @@ function createWindow() {
 
 //Called once electron is ready
 
-app.on('ready', () => createWindow)
+app.on('ready', () => createWindow())
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

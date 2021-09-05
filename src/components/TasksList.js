@@ -1,11 +1,15 @@
 import React from 'react'
 import CheckmarkImage from '../assets/checkmark.png'
+import ResumeImage from '../assets/resume.png'
+import PauseImage from '../assets/pause.png'
 
 const TasksList = ({
     tasks,
     title,
     type,
-    setAsCompleted
+    setAsCompleted,
+    setOnHold,
+    setAsPending
 }) => {
 
     const renderTasks = ({tasks}) => {
@@ -15,8 +19,16 @@ const TasksList = ({
                     <div className='task-container'>
                         {`${t.title}`}
                         {type ==='pending' &&
-                            <div className='completed-icon' onClick={() => setAsCompleted(t)}>
-                                <img src={CheckmarkImage} alt='checkmark'/>
+                            <>
+                                <div className='icon on-pause'>
+                                    <img src={CheckmarkImage} alt='completed' onClick={() => setAsCompleted(t)}/>
+                                    <img src={PauseImage} alt='hold' onClick={() => setOnHold(t)}/>
+                                </div>
+                            </>
+                        }
+                        {type ==='on_hold' &&
+                            <div className='icon resume'>
+                                <img src={ResumeImage} alt='resume' onClick={() => setAsPending(t)}/>
                             </div>
                         }
                     </div>

@@ -14,7 +14,62 @@ function App() {
 
     const [pendingTasks, setPendingTasks] = useState([])
     const [completedTasks, setCompletedTasks] = useState([])
+    const [onHoldTasks, setOnHoldTasks] = useState([])
     const [successPercentage, setSuccessPercentage] = useState(0)
+    const [holdPercentage, setHoldPercentage] = useState(0)
+    const [pendingPercentage, setPendingPercentage] = useState(0)
+
+    const addPendingTask = (task) => {
+        const tasks = pendingTasks
+        tasks.push({title: task, type: 'pending'})
+        setPendingTasks([...tasks])
+    }
+
+    const resetTasks = () => {
+        setPendingTasks([])
+        setCompletedTasks([])
+        setOnHoldTasks([])
+        setSuccessPercentage(0)
+        ipcRenderer.send('delete_tasks', {
+            storeName:'pending-tasks',
+            value: []
+        })
+        ipcRenderer.send('delete_tasks', {
+            storeName:'complete-tasks',
+            value: []
+        })
+        ipcRenderer.send('delete_tasks', {
+            storeName:'on-hold-tasks',
+            value: []
+        })
+    }
+
+    const setAsCompleted = (task) => {
+        const completedTaskIndex = pendingTasks.findIndex(t => t === task)
+        const pendingTasksCopy = pendingTasks
+        pendingTasksCopy.splice(completedTaskIndex, 1)
+        setPendingTasks([...pendingTasksCopy])
+        task.type = 'completed'
+        setCompletedTasks([...completedTasks, task])
+    }
+
+    const setOnHold = (task) => {
+        const onHoldTaskIndex = pendingTasks.findIndex(t => t === task)
+        const pendingTasksCopy = pendingTasks
+        pendingTasksCopy.splice(onHoldTaskIndex, 1)
+        setPendingTasks([...pendingTasksCopy])
+        task.type = 'on_hold'
+        setOnHoldTasks([...onHoldTasks, task])
+    }
+
+    const setAsPending = (task) => {
+        const onPendingTaskIndex = pendingTasks.findIndex(t => t === task)
+        const onHoldTasksCopy = onHoldTasks
+        onHoldTasksCopy.splice(onPendingTaskIndex, 1)
+        setOnHoldTasks([...onHoldTasksCopy])
+        task.type = 'pending'
+        setPendingTasks([...pendingTasks, task])
+    }
 
     useEffect(() => {
         ipcRenderer.on('pending-tasks', (event, arg) => {
@@ -25,52 +80,19 @@ function App() {
                 setCompletedTasks([...arg.filter(ct => ct != null)])
             }
         })
+        ipcRenderer.on('on-hold-tasks', (event, arg) => {
+            if (arg) {
+                setOnHoldTasks([...arg.filter(ct => ct != null)])
+            }
+        })
     }, [])
 
     useEffect(() => {
-        const tasks = [...pendingTasks, ...completedTasks]
+        const tasks = [...pendingTasks, ...completedTasks, ...onHoldTasks]
         setSuccessPercentage(tasks.length ? (completedTasks.length * 100) / tasks.length : 0)
-    },[completedTasks, pendingTasks])
-
-
-    const addPendingTask = (task) => {
-        const tasks = pendingTasks
-        tasks.push({title: task, type: 'pending'})
-        setPendingTasks([...tasks])
-        // ipcRenderer.send('add_task', {
-        //     storeName:'pending-tasks',
-        //     value: [...tasks]
-        // })
-    }
-
-    const resetTasks = () => {
-        setPendingTasks([])
-        setCompletedTasks([])
-        setSuccessPercentage(0)
-        ipcRenderer.send('delete_tasks', {
-            storeName:'pending-tasks',
-            value: []
-        })
-        ipcRenderer.send('delete_tasks', {
-            storeName:'complete-tasks',
-            value: []
-        })
-    }
-
-    const setAsCompleted = (task) => {
-        //task.type = 'completed'
-        const completedTaskIndex = pendingTasks.findIndex(t => t === task)
-        const pendingTasksCopy = pendingTasks
-        setPendingTasks([...pendingTasksCopy.splice(completedTaskIndex, 1)])
-        task.type = 'completed'
-        setCompletedTasks([...completedTasks, task])
-        //[completedTaskIndex].type='completed'
-        // ipcRenderer.send('add_task', {
-        //     storeName:'complete-tasks',
-        //     value: [...completedTasks, task]
-        // })
-
-    }
+        setHoldPercentage(tasks.length ? (onHoldTasks.length * 100) / tasks.length : 0)
+        setPendingPercentage(pendingTasks.length ? (pendingTasks.length * 100) / tasks.length : 0)
+    },[completedTasks, pendingTasks, onHoldTasks])
 
     useEffect(() => {
         ipcRenderer.send('add_task', {
@@ -84,13 +106,22 @@ function App() {
             storeName:'complete-tasks',
             value: [...completedTasks]
         })
-    })
+    }, [completedTasks])
+
+    useEffect(() => {
+        ipcRenderer.send('add_task', {
+            storeName:'on-hold-tasks',
+            value: [...onHoldTasks]
+        })
+    }, [onHoldTasks])
 
     return (
         <div className='App'>
             <InputBar onAdd={(task) => addPendingTask(task)}/>
             <ProgressBar
                 successPercentage={successPercentage}
+                holdPercentage={holdPercentage}
+                pendingPercentage={pendingPercentage}
             />
             <hr/>
             <TasksList
@@ -98,11 +129,22 @@ function App() {
                 title='Pending'
                 type='pending'
                 setAsCompleted={(task) => setAsCompleted(task)}
+                setOnHold={(task) => setOnHold(task)}
             />
             <TasksList
                 tasks={completedTasks}
                 title='Completed'
                 type='completed'
+                setAsCompleted={(task) => setAsCompleted(task)}
+                setOnHold={(task) => setOnHold(task)}
+            />
+            <TasksList
+                tasks={onHoldTasks}
+                title='On Hold'
+                type='on_hold'
+                setAsCompleted={(task) => setAsCompleted(task)}
+                setOnHold={(task) => setOnHold(task)}
+                setAsPending={(task) => setAsPending(task)}
             />
             <div className='reset-button' onClick={() => resetTasks()}>
                 Reset
