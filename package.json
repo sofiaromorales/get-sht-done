@@ -1,25 +1,29 @@
 {
   "name": "get-sht-done",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "author": {
       "name": "Sofía Rodríguez",
       "email": "sofiaromorales@gmail.com",
       "url": "https://www.sofiaro.com"
  },
+ "homepage": ".",
   "build": {
-      "appId": "com.electron.get-sht-done",
+      "appId": "com.sofiaro.get-sht-done",
       "productName": "get-sht-done",
       "mac": {
           "category": "public.app-category.utilities"
       },
-      "files": [
-          "./build/**/*",
-          "./public/electron.js"
-      ],
        "directories": {
          "buildResources": "assets"
      },
+     "files": [
+      "node_modules/**/*",
+      "package.json",
+      "./build/**/*",
+      "./public/electron.js"
+    ],
      "extends": null
   },
   "dependencies": {
@@ -33,9 +37,6 @@
     "react-scripts": "4.0.3",
     "sass": "^1.38.0",
     "web-vitals": "^1.1.2"
-  },
-  "devDependencies": {
-      "electron-builder": "^22.11.7"
   },
   "main": "public/electron.js",
   "scripts": {
@@ -71,6 +72,7 @@
     ]
   },
   "devDependencies": {
+    "electron-builder": "^22.11.7",
     "concurrently": "^6.2.1",
     "electron": "^11.3.0",
     "electron-is-dev": "^2.0.0",
