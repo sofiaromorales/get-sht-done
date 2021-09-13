@@ -5,18 +5,30 @@
     margin-top: 20px;
     margin-bottom: 20px;
 
-    .list-title {
+    .title-container {
         display: flex;
+        justify-content: space-between;
+    }
+
+    .list-title {
+        //display: flex;
         color: $white;
         font-weight: bold;
         font-size: 30px;
+    }
+
+    .clear-button {
+        border-radius: 5px;
+        background: $light-purple;
+        padding: 10px;
+        font-size: 15px;
+        color: $dark-purple;
     }
 
     .task-container {
         display: flex;
         margin-top: 20px;
         justify-content: space-between;
-        display: flex;
         color: $light-purple;
 
         .icon {

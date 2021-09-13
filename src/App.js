@@ -19,6 +19,22 @@ function App() {
     const [holdPercentage, setHoldPercentage] = useState(0)
     const [pendingPercentage, setPendingPercentage] = useState(0)
 
+    const clear = ({listType}) => {
+        if (listType == 'pending-tasks') {
+            setPendingTasks([])
+        }
+        else if (listType == 'complete-tasks') {
+            setCompletedTasks([])
+        }
+        else if (listType == 'on-hold-tasks') {
+            setOnHoldTasks([])
+        }
+        ipcRenderer.send('delete_tasks', {
+            storeName: listType,
+            value: []
+        })
+    }
+
     const addPendingTask = (task) => {
         const tasks = pendingTasks
         tasks.push({title: task, type: 'pending'})
@@ -125,6 +141,7 @@ function App() {
             />
             <hr/>
             <TasksList
+                clear={(listType) => clear(listType)}
                 tasks={pendingTasks}
                 title='Pending'
                 type='pending'
@@ -132,6 +149,7 @@ function App() {
                 setOnHold={(task) => setOnHold(task)}
             />
             <TasksList
+                clear={(listType) => clear(listType)}
                 tasks={completedTasks}
                 title='Completed'
                 type='completed'
@@ -139,6 +157,7 @@ function App() {
                 setOnHold={(task) => setOnHold(task)}
             />
             <TasksList
+                clear={(listType) => clear(listType)}
                 tasks={onHoldTasks}
                 title='On Hold'
                 type='on_hold'

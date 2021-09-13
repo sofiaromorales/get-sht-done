@@ -2,8 +2,10 @@ import React from 'react'
 import CheckmarkImage from '../assets/checkmark.png'
 import ResumeImage from '../assets/resume.png'
 import PauseImage from '../assets/pause.png'
+import XMark from '../assets/x-mark.png'
 
 const TasksList = ({
+    clear,
     tasks,
     title,
     type,
@@ -11,6 +13,17 @@ const TasksList = ({
     setOnHold,
     setAsPending
 }) => {
+
+    const clearTask = () => {
+        if (tasks.length) {
+            const listType = tasks[0].type == 'pending'
+            ? 'pending-tasks'
+            :  tasks[0].type == 'completed'
+                ? 'complete-tasks'
+                : 'on-hold-tasks'
+            clear({listType: listType})
+        }
+    }
 
     const renderTasks = ({tasks}) => {
         return tasks.map(t => {
@@ -40,8 +53,13 @@ const TasksList = ({
 
     return (
         <div className='TasksList'>
-            <div className='list-title'>
-                {title}
+            <div className='title-container'>
+                <div className='list-title'>
+                    {title}
+                </div>
+                <div className='clear-button' onClick={() => clearTask()}>
+                    Clear
+                </div>
             </div>
             {renderTasks({tasks})}
         </div>
