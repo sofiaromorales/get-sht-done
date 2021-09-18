@@ -133,13 +133,14 @@ function App() {
 
     return (
         <div className='App'>
-            <InputBar onAdd={(task) => addPendingTask(task)}/>
-            <ProgressBar
-                successPercentage={successPercentage}
-                holdPercentage={holdPercentage}
-                pendingPercentage={pendingPercentage}
-            />
-            <hr/>
+            <div className='control-bar'>
+                <InputBar onAdd={(task) => addPendingTask(task)}/>
+                <ProgressBar
+                    successPercentage={successPercentage}
+                    holdPercentage={holdPercentage}
+                    pendingPercentage={pendingPercentage}
+                />
+            </div>
             <TasksList
                 clear={(listType) => clear(listType)}
                 tasks={pendingTasks}

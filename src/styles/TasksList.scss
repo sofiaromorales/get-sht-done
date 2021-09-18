@@ -8,6 +8,16 @@
     .title-container {
         display: flex;
         justify-content: space-between;
+        button {
+            background: none;
+            border: none;
+            color: $light-purple;
+            text-shadow: 0px 0px 0px transparent;
+
+        }
+        button:focus {
+            outline: 0;
+        }
     }
 
     .list-title {
@@ -36,6 +46,15 @@
             img {
                 height: 30px;
             }
+        }
+    }
+
+    .tasks-list-content {
+        transition: max-height 0.25s ease-in;
+        max-height: auto;
+        overflow: hidden;
+        &.collapsed {
+            height: 0px;
         }
     }
 }

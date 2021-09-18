@@ -1,4 +1,5 @@
 .App {
+
     .reset-button {
         border-radius: 5px;
         background: $light-purple;
@@ -6,5 +7,17 @@
         color: $dark-purple;
         width: 20%;
         margin: auto;
+    }
+
+    .control-bar {
+        padding-bottom: 20px;
+        padding-top: 20px;
+        position: sticky;
+        background: $dark-purple;
+        top: 0;
+        right: 0;
+        left: 0;
+        border-bottom: $light-purple solid 1px;
+        z-index: 100;
     }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CheckmarkImage from '../assets/checkmark.png'
 import ResumeImage from '../assets/resume.png'
 import PauseImage from '../assets/pause.png'
@@ -13,6 +13,8 @@ const TasksList = ({
     setOnHold,
     setAsPending
 }) => {
+
+    const [collapsed, setCollpased] = useState(false)
 
     const clearTask = () => {
         if (tasks.length) {
@@ -54,6 +56,9 @@ const TasksList = ({
     return (
         <div className='TasksList'>
             <div className='title-container'>
+                <button onClick={() => setCollpased(!collapsed)}>
+                    {`${collapsed ? '+' : '-'}`}
+                </button>
                 <div className='list-title'>
                     {title}
                 </div>
@@ -61,7 +66,9 @@ const TasksList = ({
                     Clear
                 </div>
             </div>
-            {renderTasks({tasks})}
+            <div className={`tasks-list-content ${collapsed ? 'collapsed' : ''}`}>
+                {renderTasks({tasks})}
+            </div>
         </div>
     )
 }

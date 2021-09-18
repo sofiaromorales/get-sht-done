@@ -21,13 +21,12 @@ function createWindow() {
             preload: __dirname + '/preload.js'
         }
     })
-    console.log('create window');
-    window.loadURL(
-        isDev
-        ? 'http://localhost:3000'
-        :  `file://${path.join(__dirname, "../build/index.html")}`
-    )
-    //window.loadURL(`file://${path.join(__dirname, "../build/index.html")}`)
+    // window.loadURL(
+    //     isDev
+    //     ? 'http://localhost:3000'
+    //     :  `file://${path.join(__dirname, "../build/index.html")}`
+    // )
+    window.loadURL(`file://${path.join(__dirname, "../build/index.html")}`)
     if (isDev) {
         window.webContents.openDevTools({mode: 'detach'})
     }
