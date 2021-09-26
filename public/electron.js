@@ -1,13 +1,7 @@
 const path = require('path')
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const Store = require('electron-store');
-
-let mainWindow = {
-  show: () => {
-    console.log("show");
-  }
-};
 
 function createWindow() {
     //Create the Browser Window
@@ -50,7 +44,6 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-    mainWindow.show()
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
     }

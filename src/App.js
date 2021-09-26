@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import 'fs'
 
 import './App.css'
 
 import TasksList from './components/TasksList'
 import InputBar from './components/InputBar'
 import ProgressBar from './components/ProgressBar'
-import 'fs';
-const { ipcRenderer } = window.require('electron');
-//const electron = require('electron');
-//const ipcRenderer  = electron.ipcRenderer;
+
+const { ipcRenderer } = window.require('electron')
 
 function App() {
 

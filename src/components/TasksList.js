@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import CheckmarkImage from '../assets/checkmark.png'
 import ResumeImage from '../assets/resume.png'
 import PauseImage from '../assets/pause.png'
-import XMark from '../assets/x-mark.png'
 
 const TasksList = ({
     clear,
