@@ -67,6 +67,15 @@ function App() {
         task.type = 'completed'
         setCompletedTasks([...completedTasks, task])
     }
+    
+    const setAsPending = (task) => {
+        const onPendingTaskIndex = pendingTasks.findIndex(t => t === task)
+        const onHoldTasksCopy = onHoldTasks
+        onHoldTasksCopy.splice(onPendingTaskIndex, 1)
+        setOnHoldTasks([...onHoldTasksCopy])
+        task.type = 'pending'
+        setPendingTasks([...pendingTasks, task])
+    }
 
     const setOnHold = (task) => {
         const onHoldTaskIndex = pendingTasks.findIndex(t => t === task)
@@ -75,15 +84,6 @@ function App() {
         setPendingTasks([...pendingTasksCopy])
         task.type = 'on_hold'
         setOnHoldTasks([...onHoldTasks, task])
-    }
-
-    const setAsPending = (task) => {
-        const onPendingTaskIndex = pendingTasks.findIndex(t => t === task)
-        const onHoldTasksCopy = onHoldTasks
-        onHoldTasksCopy.splice(onPendingTaskIndex, 1)
-        setOnHoldTasks([...onHoldTasksCopy])
-        task.type = 'pending'
-        setPendingTasks([...pendingTasks, task])
     }
 
     useEffect(() => {
